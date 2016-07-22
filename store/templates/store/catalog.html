@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-3.3.6.js"> </script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" s">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	<title>E-Commerce</title>	
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+	<ul class="nav navbar-nav navbar-left">
+		<li><a class="navbar-brand" href="#">Home</a></li>
+		<li><a href="/admin-login">Admin Login</a></li>
+	</ul>
+	<ul class="nav navbar-nav navbar-right">
+		<li><a class="navbar-brand" href="#">Cart: <b>{{cart_items}}</b>Items </a></li>
+		<li><a href="/cart/checkout">Checkout</a></li>
+	</ul>
+	</nav>
+	<br>
+	<br>
+	<div class="page-header" style="text-align:center">
+		<h2>My Store</h2>
+	</div>
+</body>
+</html>
