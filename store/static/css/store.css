@@ -1,3 +1,28 @@
+.body{
+	padding-right: 20px;
+}
 .page-header{
+	text-align: center;
+}
+.col-md-4, .well {
+	height: 350px;
+}
+.row{
+	padding-left: 30px;
+	padding-right: 30px;
+	
+}
+.src,img{
+	max-width:200px;
+}
+.nav, .navbar-nav, .navbar-right{
+	padding-right: 15px;
+}
+
+
+.centerdv{
+	width:45%;
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
 }
