@@ -8,5 +8,5 @@ def catalog(request):
 	cart = request.session['cart']
 	request.session.set_expiry(0)
 	store_items = Product.objects.all()
-	ctx = {'store_items': store_items}
+	ctx = {'store_items': store_items,'cart_items':len(cart)}
 	return render(request,'store/catalog.html',ctx)
