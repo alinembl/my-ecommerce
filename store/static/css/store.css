@@ -18,11 +18,13 @@
 .nav, .navbar-nav, .navbar-right{
 	padding-right: 15px;
 }
-
-
 .centerdv{
 	width:45%;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
+}
+.imgscale{
+	max-width: 64px;
+	max-height: 64px;
 }

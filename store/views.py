@@ -5,7 +5,7 @@ from .models import Product
 def cartItems(cart):
 	items =[]
 	for item in cart:
-		items.append(Product.objects.get(id=item))
+		items.append(Product.objects.get(id=int(item)))
 	return items
 
 def priceCart(cart):
@@ -21,11 +21,11 @@ def catalog(request):
 	cart = request.session['cart']
 	request.session.set_expiry(0)
 	store_items = Product.objects.all()
-	ctx = {'store_items': store_items,'cart_items':len(cart)}
+	ctx = {'store_items': store_items,'cart_size':len(cart)}
 	
 	if request.method =="POST":
 		cart.append(int(request.POST['obj_id']))
-		return redirect('store/catalog.html')
+		return redirect('catalog')
 	
 	return render(request,'store/catalog.html',ctx)
 
@@ -33,4 +33,17 @@ def cart(request):
 	cart = request.session['cart']
 	request.session.set_expiry(0)
 	ctx = {'cart': cart, 'cart_size':len(cart),'cart_items':cartItems(cart),'total_price':priceCart(cart)}
-	return render(request,"store/cart.html")
+	return render(request,"store/cart.html",ctx)
+
+def removefromcart(request):
+    request.session.set_expiry(0)
+    obj_to_remove = int(request.POST['obj_id'])
+    obj_index = request.session['cart'].index(obj_to_remove)
+    request.session['cart'].pop(obj_index)
+    return redirect("cart")
+
+def checkout(request):
+	request.session.set_expiry(0)
+	cart = request.session['cart']
+	ctx = {'cart': cart, 'cart_size':len(cart),'total_price':priceCart(cart)}
+	return render(request, "store/checkout.html")
