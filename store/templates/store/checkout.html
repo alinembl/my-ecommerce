@@ -15,7 +15,7 @@
 			</ul>
 		<ul class="nav navbar-nav navbar-right">
 		<li><a class="navbar-brand" href="/cart/">Cart: <b>({{cart_size}})</b> items </a></li>
-		<li><a href="/cart/checkout">Checkout</a></li>
+		<li><a href="/checkout/">Checkout</a></li>
 	</ul>
 	</nav>
 	<br>
@@ -26,4 +26,37 @@
 	</div>
 	<div class="container centerdv">
 		<h3>Total Price: <br> <br> <span class="label label-success">{{total_price}}</span></h3>
+		<div  class="well">
+			<form method="post" action="complete/" class="centerdv">
+				{% csrf_token%}
+				<h4>Billing Information</h4>
+				<b>First Name:</b>
+				<input type="text" name="first_name" class="form-control">
+				<br>
+				<b>Last Name</b>
+				<input type="text" name="last-name" class="form-control">
+				<br>
+				<b>Adress: </b>
+				<input type="text" name="adress" class="form-control">
+				<br>
+				<b>City: </b>
+				<input type="text" name="city" class="form-control">
+				<br>
+
+				<h4>Payment Information</h4>
+				<br>
+				<b>Payment Type: </b>
+				<br>
+				<input type="radio" name="payment" value="paypal">
+				Paypal
+				<br>
+				<input type="radio" name="payment" value="credit_card">
+				Credit Card
+				<br>
+				<b>Paypal email/ CC Number</b>
+				<input type="text" class="form-control" name="payment_data">
+
+				<input type="submit" value="Complete Order!" class="btn btn-seccess">
+			</form>
+		</div>
 	</div>

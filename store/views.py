@@ -2,11 +2,21 @@ from django.shortcuts import render, redirect
 from .models import Product
 # Create your views here.
 
+
+
 def cartItems(cart):
 	items =[]
 	for item in cart:
 		items.append(Product.objects.get(id=int(item)))
 	return items
+
+def genItemsList(cart):
+	cart_items = cartItems(cart)
+	item_list = ""
+	for item in cart_items:
+		item_list += srt(item.name)
+		item_list += ","
+	return item_list
 
 def priceCart(cart):
 	cart_items = cartItems(cart)
@@ -47,3 +57,17 @@ def checkout(request):
 	cart = request.session['cart']
 	ctx = {'cart': cart, 'cart_size':len(cart),'total_price':priceCart(cart)}
 	return render(request, "store/checkout.html")
+
+def completeOrder(request):
+	request.session.set_expiry(0)
+	cart = request.session['cart']
+	order = Order()
+	order.first_name = request.POST['first_name']
+	order.last_name = request.POST['last_name']
+	order.adress = request.POST['adress']
+	order.city = request.POST['city']
+	order.payment_method = request.POST['payment']
+	order.payment_data = request.POST['payment_data']
+	order.items = genItemsList(cart)
+	request.session['cart'] = []
+	return render(request,"store/complete_order.html",None)
