@@ -24,42 +24,30 @@
 
 		<h2>MyStore <br> <br> <small>The place to shop</small></h2>
 	</div>
+	<h3 style = "text-align:center">Orders:</h3>
 	<div class = "container centerdv">
-		<h3>Total Price: <br> <br><span class="label label-success">{{total_price}}</span></h3>
-		<div class = "well">
-
-			<form method = "post" action = "complete/" class = "formdiv">
-				{% csrf_token %}
-				<h4>Billing Information</h4>
-					<b>First Name:</b>
-					<input name = "first_name" class = "form-control"/>
-					<br>
-					<b>Last Name:</b>
-					<input name = "last_name" class = "form-control"/>
-					<br>
-					<b>Address:</b>
-					<input name = "address" class = "form-control">
-					<br>
-					<b>City</b>
-					<input name = "city" class = "form-control">
-					<br>
-					<h4>Payment Information</h4>
-							<br>
-							<b> Payment Type: </b>
-							<br>
-							<input type="radio" name="payment" value="paypal">Paypal
-							<br>
-							<input type="radio" name="payment" value="credit_card">Credit Card
-							<br>
-							<b>Paypal Email/ CC Number</b>
-							<input type = "text" class = "form-control" name = "payment_data">
-							<br>
-
-					<input type = "submit" value = "Complete Order" class = "btn btn-success">
-			</form>
-
-
-		</div>
+		{% for order in orders %}
+		<div class ="well">
+			<b>Name:</b>
+			<br>
+			{{order.first_name}} {{order.last_name}}
+			<br>
+			<b> Address:</b>
+			<br>
+			{{order.address}} {{order.city}}
+			<br>
+			<b> Payment Info</b>
+			<br>
+			{{order.payment_method}} {{order.payment_data}}
+			<br>
+			<b> Items: </b>
+			<br>
+				{{order.items}}
+			<br>
+			<b> Fulfilled </b>
+				{{order.fulfilled}}
+			</div>
+		{% endfor %}
 	</div>
 </body>
 </html>

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import Product
-# Create your views here.
+from .models import Product, Order
 
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
 
 
 def cartItems(cart):
@@ -14,7 +15,7 @@ def genItemsList(cart):
 	cart_items = cartItems(cart)
 	item_list = ""
 	for item in cart_items:
-		item_list += srt(item.name)
+		item_list += item.name
 		item_list += ","
 	return item_list
 
@@ -59,15 +60,38 @@ def checkout(request):
 	return render(request, "store/checkout.html")
 
 def completeOrder(request):
-	request.session.set_expiry(0)
-	cart = request.session['cart']
-	order = Order()
-	order.first_name = request.POST['first_name']
-	order.last_name = request.POST['last_name']
-	order.adress = request.POST['adress']
-	order.city = request.POST['city']
-	order.payment_method = request.POST['payment']
-	order.payment_data = request.POST['payment_data']
-	order.items = genItemsList(cart)
-	request.session['cart'] = []
-	return render(request,"store/complete_order.html",None)
+    cart = request.session['cart']
+    request.session.set_expiry(0)
+    ctx = {'cart':cart, 'cart_size':len(cart), 'cart_items':cartItems(cart), 'total_price': priceCart(cart)}
+    order = Order()
+    order.items = genItemsList(cart)
+    order.first_name = request.POST['first_name']
+    order.last_name = request.POST['last_name']
+    order.address = request.POST['address']
+    order.city = request.POST['city']
+    order.payment_data = request.POST['payment_data']
+    order.fulfilled = False
+    order.payment_method = request.POST['payment']
+    order.save()
+    request.session['cart'] = []
+    return render(request, "store/complete_order.html", ctx)
+
+def adminLogin(request):
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username,password=password)
+		if user is not None:
+			login(request,user)
+			return redirect("admin")
+		else:
+			return render(request,"admin-login",{'login':False})
+	return render(request,"store/admin_login.html",None)
+
+@login_required
+def adminDashboard(request):
+	orders = Order.objects.all()
+	ctx = {'orders':orders}
+	return render(request, "store/admin_panel.html",ctx)
+
+	
